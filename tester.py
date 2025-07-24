@@ -57,7 +57,7 @@ def test_page_rank(max_iter, prop_name):
     """
 
 
-    conn = interface.Interface("neo4j://localhost:7687", "neo4j", "project1phase1")
+    conn = interface.Interface("neo4j://localhost:7687", "neo4j", "project1phase2")
     result = conn.pagerank(max_iter, prop_name)
 
     return result
@@ -72,7 +72,7 @@ def test_bfs(start_node, last_node):
 
     print("Testing if BFS is working")
 
-    conn = interface.Interface("neo4j://localhost:7687", "neo4j", "project1phase1")
+    conn = interface.Interface("neo4j://localhost:7687", "neo4j", "project1phase2")
     result = conn.bfs(start_node, last_node)
 
     return result
@@ -97,7 +97,7 @@ def main():
     print("----------------------------------")
 
     # Test load data
-    tester = TesterConnect("neo4j://localhost:7687", "neo4j", "project1phase1")
+    tester = TesterConnect("neo4j://localhost:7687", "neo4j", "project1phase2")
     tester.test_data_loaded()
     tester.close()
 

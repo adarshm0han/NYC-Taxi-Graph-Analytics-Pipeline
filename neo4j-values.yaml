@@ -1,0 +1,29 @@
+neo4j:
+  name: my-neo4j-release
+  edition: community
+  password: project1phase2
+  acceptLicenseAgreement: "yes"
+
+# plugins: '["graph-data-science","apoc"]'
+
+
+env:
+  NEO4J_PLUGINS: '["apoc","graph-data-science"]'
+  NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
+
+
+config:
+  dbms.security.procedures.unrestricted: "gds.*,apoc.*"
+  dbms.security.procedures.allowlist: "gds.*,apoc.*"
+
+volumes:
+  data:
+    mode: defaultStorageClass
+    defaultStorageClass:
+      requests:
+        storage: 10Gi
+
+
+
+
+    

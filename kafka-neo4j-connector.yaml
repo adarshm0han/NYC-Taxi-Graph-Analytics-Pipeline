@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-neo4j-connect
+  labels:
+    app: kafka-neo4j-connect
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka-neo4j-connect
+  template:
+    metadata:
+      labels:
+        app: kafka-neo4j-connect
+    spec:
+      volumes:
+        - name: sink-config
+          configMap:
+            name: neo4j-sink-config       
+            items:
+              - key: sink.neo4j.json
+                path: sink.neo4j.json
+    
+
+      containers:
+        - name: connect
+          image: roy012299/kafka-neo4j-connect:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8083
+
+       
+          volumeMounts:
+            - name: sink-config
+              mountPath: /sink.neo4j.json
+              subPath: sink.neo4j.json
+          
+
+          env:
+            - name: BOOTSTRAP_SERVERS
+              value: "kafka-service:29092"
+            - name: GROUP_ID
+              value: "connect-cluster"
+            - name: CONFIG_STORAGE_TOPIC
+              value: "connect-config"
+            - name: OFFSET_STORAGE_TOPIC
+              value: "connect-offsets"
+            - name: STATUS_STORAGE_TOPIC
+              value: "connect-status"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kafka-neo4j-connect
+spec:
+  selector:
+    app: kafka-neo4j-connect
+  ports:
+    - protocol: TCP
+      port: 8083
+      targetPort: 8083
+            
