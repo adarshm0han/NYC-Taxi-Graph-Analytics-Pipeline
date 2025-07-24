@@ -16,7 +16,7 @@ class Interface:
         with self._driver.session() as session:
             self._drop_existing_graph(session)
 
-            # Step 1: Project the graph
+            
             session.run(f"""
                 CALL gds.graph.project(
                     'tripGraph',
